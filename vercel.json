@@ -3,7 +3,7 @@
   "installCommand": "npm install",
   "functions": {
     "api/index.js": {
-      "includeFiles": ["index.html", "public/**", "assets/**"]
+      "includeFiles": "index.html, public/**, assets/**"
     }
   },
   "rewrites": [
