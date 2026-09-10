@@ -30,6 +30,7 @@ const bare = createBareServer("/bare/");
 const __dirname = join(fileURLToPath(import.meta.url), "..");
 const app = express();
 app.disable("x-powered-by");
+if (process.env.VERCEL) app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const publicPath = "public";
@@ -43,6 +44,8 @@ app.use("/epoxy/", express.static(epoxyPath));
 app.use("/baremux/", express.static(baremuxPath));
 app.use("/libcurl/", express.static(libcurlPath));
 app.use("/bareasmodule/", express.static(bareModulePath));
+// Health check — Vercel uptime / deploy verification
+app.get("/healthz", (req, res) => res.json({ ok: true }));
 app.use(["/sw.js", "/uv/sw.js"], (req, res, next) => {
   res.set("Service-Worker-Allowed", "/");
   next();
@@ -105,7 +108,10 @@ app.get("/api/version", (req, res) => {
 });
 app.get("/api/commit", (req, res) => {
   try {
-    const commit = execSync("git rev-parse --short HEAD").toString().trim();
+    const envCommit = process.env.VERCEL_GIT_COMMIT_SHA || process.env.GIT_COMMIT_SHA || "";
+    const commit = envCommit
+      ? envCommit.slice(0, 7)
+      : execSync("git rev-parse --short HEAD").toString().trim();
     res.json({ commit });
   } catch (err) {
     res.status(500).json({ error: "Could not get commit" });
