@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings - GamesHub</title>
+  <link rel="icon" href="../media/logo.svg" type="image/x-icon" id="favicon" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../js/cloak.js"></script>
+  <style>
+    .settings-wrap { max-width: 700px; margin: 0 auto; padding: 20px; }
+    .settings-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+    .tab-button { padding: 8px 18px; border: 1px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-2-color); color: var(--text-color); cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.2s; }
+    .tab-button.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+    .tab { display: none; flex-direction: column; gap: 16px; }
+    .setting-group { background: var(--bg-2-color); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 16px; }
+    .setting-label { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-color); }
+    .setting-desc { font-size: 12px; color: var(--text-secondary-color); margin-bottom: 8px; }
+    .setting-row { display: flex; align-items: center; gap: 12px; }
+    .setting-row select, .setting-row input[type="text"] { flex: 1; padding: 8px 12px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: inherit; font-size: 14px; }
+    .setting-row select:focus, .setting-row input:focus { border-color: var(--primary-color); outline: none; }
+    .switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; inset: 0; border-radius: 28px; background: var(--secondary-color); transition: 0.3s; }
+    .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text-color); border-radius: 50%; transition: 0.3s; }
+    input:checked + .slider { background: var(--primary-color); }
+    input:checked + .slider:before { transform: translateX(22px); }
+    .btn-danger { background: #e94560; color: #fff; }
+    .btn-danger:hover { background: #c73a52; }
+  </style>
+</head>
+<body>
+  <div class="navbar-container"></div>
+  <div id="blobs">
+    <div class="gradiant"></div>
+    <div class="gradiant2"></div>
+    <div class="gradiant3"></div>
+  </div>
+  <div id="particles-js"></div>
+  <main>
+    <div class="settings-wrap">
+      <h1 class="settings-title"><i class="fa-solid fa-cog"></i> Settings</h1>
+      <div class="tab-buttons">
+        <button class="tab-button active" id="style-tab">Style</button>
+        <button class="tab-button" id="proxy-tab">Proxy</button>
+        <button class="tab-button" id="privacy-tab">Privacy</button>
+        <button class="tab-button" id="data-tab">Data</button>
+      </div>
+
+      <div class="tab" data-tab-name="style">
+        <div class="setting-group">
+          <div class="setting-label">Theme</div>
+          <div class="setting-row">
+            <select id="theme-select">
+              <option value="default">Default</option>
+              <option value="light">Light</option>
+              <option value="v6">V6</option>
+              <option value="greypurple">Grey Purple</option>
+              <option value="audi">Audi</option>
+              <option value="new">New</option>
+              <option value="pink">Pink</option>
+              <option value="grey">Grey</option>
+              <option value="ssb">SSB</option>
+              <option value="blue">Blue</option>
+              <option value="moon">Moon</option>
+              <option value="mocha">Mocha</option>
+              <option value="orange">Orange</option>
+              <option value="3kh0">3kh0</option>
+              <option value="starlight">Starlight</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Particles</div>
+          <div class="setting-desc">Toggle background particles animation</div>
+          <div class="setting-row">
+            <label class="switch"><input type="checkbox" id="disableParticles" checked /><span class="slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Blobs</div>
+          <div class="setting-desc">Toggle background blob animations</div>
+          <div class="setting-row">
+            <label class="switch"><input type="checkbox" id="disableBlobs" checked /><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab" data-tab-name="proxy">
+        <div class="setting-group">
+          <div class="setting-label">Proxy Backend</div>
+          <div class="setting-desc">Choose the proxy engine</div>
+          <div class="setting-row">
+            <select id="proxy-backend">
+              <option value="ultraviolet">Ultraviolet</option>
+              <option value="scramjet">Scramjet</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Proxy Transport</div>
+          <div class="setting-desc">Change the network transport layer</div>
+          <div class="setting-row">
+            <select id="proxy-transport">
+              <option value="epoxy">Epoxy</option>
+              <option value="libcurl">Libcurl</option>
+              <option value="bare">Bare</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Search Engine</div>
+          <div class="setting-desc">Default search engine for the proxy bar</div>
+          <div class="setting-row">
+            <select id="search-engine-select">
+              <option value="https://www.duckduckgo.com/search?q=%s">DuckDuckGo</option>
+              <option value="https://www.google.com/search?q=%s">Google</option>
+              <option value="https://www.bing.com/search?q=%s">Bing</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab" data-tab-name="privacy">
+        <div class="setting-group">
+          <div class="setting-label">Tab Cloaking</div>
+          <div class="setting-desc">Disguise the browser tab as another website</div>
+          <div class="setting-row">
+            <select data-cloak-select>
+              <option value="default">Default (GamesHub)</option>
+              <option value="drive">Google Drive</option>
+              <option value="classroom">Google Classroom</option>
+              <option value="canvas">Canvas</option>
+              <option value="zoom">Zoom</option>
+              <option value="khan">Khan Academy</option>
+              <option value="wikipedia">Wikipedia</option>
+              <option value="desmos">Desmos</option>
+              <option value="gforms">Google Forms</option>
+              <option value="quizlet">Quizlet</option>
+            </select>
+            <button class="btn btn-outline" id="cloak-reset">Reset</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Panic Key</div>
+          <div class="setting-desc">Press a key to quickly navigate away</div>
+          <div class="setting-row">
+            <input type="text" id="panicKey" placeholder="Key (e.g. ~)" maxlength="1" style="max-width: 80px;" />
+            <input type="text" id="panicUrl" placeholder="Redirect URL" style="flex: 1;" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tab" data-tab-name="data">
+        <div class="setting-group">
+          <div class="setting-label">Tips</div>
+          <div class="setting-desc">Show random tips on the homepage</div>
+          <div class="setting-row">
+            <label class="switch"><input type="checkbox" id="disableTips" /><span class="slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Export / Import Data</div>
+          <div class="setting-desc">Backup or restore your settings</div>
+          <div class="setting-row">
+            <button class="btn" onclick="downloadBrowserBackup()">Export</button>
+            <button class="btn btn-outline" onclick="uploadBrowserBackup()">Import</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">Reset All Settings</div>
+          <div class="setting-desc">This will reset everything to defaults</div>
+          <div class="setting-row">
+            <button class="btn btn-danger" id="reset-settings">Reset Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="footer">
+    <a href="https://github.com/thedogecraft/lunaar.org" class="link">GitHub</a>
+    <a href="https://discord.gg/En5YJYWj3Z" class="link">Discord</a>
+  </div>
+  <button id="panicBtn">Panic</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/settings.js"></script>
+</body>
+</html>

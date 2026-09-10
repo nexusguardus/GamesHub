@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>More - GamesHub</title>
+  <link rel="icon" href="../media/logo.svg" type="image/x-icon" id="favicon" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../js/cloak.js"></script>
+  <style>
+    .more-wrap { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .more-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    .more-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .more-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 16px; background: var(--bg-2-color); border: 1px solid var(--border-color); border-radius: var(--border-radius); cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; color: var(--text-color); }
+    .more-card:hover { transform: translateY(-3px); border-color: var(--primary-color); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .more-card i { font-size: 32px; color: var(--primary-color); }
+    .more-card p { font-size: 15px; font-weight: 600; }
+    .more-card span { font-size: 12px; color: var(--text-secondary-color); }
+  </style>
+</head>
+<body>
+  <div class="navbar-container"></div>
+  <div id="blobs">
+    <div class="gradiant"></div>
+    <div class="gradiant2"></div>
+    <div class="gradiant3"></div>
+  </div>
+  <div id="particles-js"></div>
+  <main>
+    <div class="more-wrap">
+      <h1 class="more-title"><i class="fa-solid fa-plus-circle"></i> More</h1>
+      <div class="more-grid">
+        <a class="more-card" href="https://discord.gg/En5YJYWj3Z" target="_blank">
+          <i class="fa-brands fa-discord"></i><p>Discord</p><span>Join our community</span>
+        </a>
+        <a class="more-card" href="https://github.com/thedogecraft/lunaar.org" target="_blank">
+          <i class="fa-brands fa-github"></i><p>GitHub</p><span>Source code</span>
+        </a>
+        <div class="more-card" onclick="window.location.href='/settings'">
+          <i class="fa-solid fa-palette"></i><p>Themes</p><span>Customize the look</span>
+        </div>
+        <div class="more-card" onclick="window.location.href='/ai'">
+          <i class="fa-solid fa-robot"></i><p>Luna AI</p><span>Ask anything</span>
+        </div>
+        <div class="more-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://www.youtube.com')">
+          <i class="fa-brands fa-youtube"></i><p>YouTube</p><span>Watch videos</span>
+        </div>
+        <div class="more-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://reddit.com')">
+          <i class="fa-brands fa-reddit"></i><p>Reddit</p><span>Browse reddit</span>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="footer">
+    <a href="https://github.com/thedogecraft/lunaar.org" class="link">GitHub</a>
+    <a href="https://discord.gg/En5YJYWj3Z" class="link">Discord</a>
+  </div>
+  <button id="panicBtn">Panic</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+</body>
+</html>

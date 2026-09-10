@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI - GamesHub</title>
+  <link rel="icon" href="../media/logo.svg" type="image/x-icon" id="favicon" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../js/cloak.js"></script>
+  <style>
+    .ai-wrap { max-width: 700px; margin: 0 auto; padding: 20px; width: 100%; }
+    .ai-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+    .ai-subtitle { text-align: center; color: var(--text-secondary-color); margin-bottom: 16px; font-size: 14px; }
+    .chat-container { display: flex; flex-direction: column; height: 60vh; background: var(--bg-2-color); border: 1px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .chat-message { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+    .chat-message.user { align-self: flex-end; background: var(--primary-color); color: #fff; border-bottom-right-radius: 4px; }
+    .chat-message.assistant { align-self: flex-start; background: var(--bg-color); border: 1px solid var(--border-color); border-bottom-left-radius: 4px; }
+    .chat-input-area { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border-color); }
+    .chat-input-area input { flex: 1; padding: 10px 14px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: inherit; font-size: 14px; }
+    .chat-input-area input:focus { border-color: var(--primary-color); outline: none; }
+    .chat-input-area button { padding: 10px 20px; }
+    .model-select { margin-bottom: 12px; text-align: center; }
+    .model-select select { padding: 6px 12px; background: var(--bg-2-color); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: inherit; }
+    #ai-status { text-align: center; font-size: 13px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="navbar-container"></div>
+  <div id="blobs">
+    <div class="gradiant"></div>
+    <div class="gradiant2"></div>
+    <div class="gradiant3"></div>
+  </div>
+  <div id="particles-js"></div>
+  <main>
+    <div class="ai-wrap">
+      <h1 class="ai-title"><i class="fa-solid fa-robot"></i> Luna AI</h1>
+      <p class="ai-subtitle">Your helpful AI assistant powered by Groq</p>
+      <div id="ai-status">Checking status...</div>
+      <div class="model-select">
+        <select id="model-select">
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
+          <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+          <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+          <option value="gemma2-9b-it">Gemma 2 9B</option>
+        </select>
+      </div>
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Ask Luna anything..." />
+          <button class="btn btn-primary" id="send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="footer">
+    <a href="https://github.com/thedogecraft/lunaar.org" class="link">GitHub</a>
+    <a href="https://discord.gg/En5YJYWj3Z" class="link">Discord</a>
+  </div>
+  <button id="panicBtn">Panic</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/ai.js"></script>
+</body>
+</html>

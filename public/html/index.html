@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - GamesHub</title>
+  <meta name="title" content="GamesHub - Free Online Learning Resources" />
+  <meta name="description" content="GamesHub - Access games, study materials, and learning tools for students." />
+  <meta name="author" content="Parcoil" />
+  <link rel="icon" href="../media/logo.svg" type="image/x-icon" id="favicon" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../js/cloak.js"></script>
+</head>
+<body>
+  <div class="navbar-container"></div>
+  <div id="blobs">
+    <div class="gradiant"></div>
+    <div class="gradiant2"></div>
+    <div class="gradiant3"></div>
+  </div>
+  <div id="particles-js"></div>
+  <div class="container">
+    <h1 id="rng-text">Hello!</h1>
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+      <form id="proxy-form">
+        <input id="proxy-search-engine" value="https://www.duckduckgo.com/search?q=%s" type="hidden" />
+        <input id="proxy-address" type="text" placeholder="What are you looking for?" class="search" />
+      </form>
+      <div id="autocomplete"></div>
+    </div>
+    <div class="shortcuts">
+      <div class="shortcut shortcut-add" id="add-shortcut">
+        <div class="shortcut-icon"><i class="fa-solid fa-plus" style="font-size: x-large"></i></div>
+      </div>
+    </div>
+    <p style="margin-top: 5px; color: var(--text-color); opacity: 0.8">
+      Join our <a href="https://discord.gg/En5YJYWj3Z" style="color: var(--primary-color)">Discord</a> for more links!
+    </p>
+  </div>
+  <div class="footer">
+    <a href="https://github.com/thedogecraft/lunaar.org" class="link">GitHub</a>
+    <a href="https://discord.gg/En5YJYWj3Z" class="link">Discord</a>
+  </div>
+  <button id="panicBtn">Panic</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/home.js"></script>
+  <script src="/sj/register-sw.js" defer></script>
+  <script src="/sj/search.js" defer></script>
+  <script src="/sj/index.js" defer></script>
+  <script src="/scram/scramjet.all.js"></script>
+  <script src="/baremux/index.js" defer></script>
+  <script src="/uv/uv.bundle.js" defer></script>
+  <script src="/uv/uv.config.js" defer></script>
+  <script src="/uv/register-sw.js" defer></script>
+  <script src="/uv/search.js" defer></script>
+  <script src="/uv/proxy.js" defer></script>
+</body>
+</html>

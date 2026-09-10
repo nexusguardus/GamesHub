@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apps - GamesHub</title>
+  <link rel="icon" href="../media/logo.svg" type="image/x-icon" id="favicon" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../js/cloak.js"></script>
+  <style>
+    .apps-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .app-card { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 160px; padding: 20px 16px; background: var(--bg-2-color); border: 1px solid var(--border-color); border-radius: var(--border-radius); cursor: pointer; transition: all 0.2s; text-align: center; }
+    .app-card:hover { transform: translateY(-4px); border-color: var(--primary-color); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .app-card i { font-size: 36px; color: var(--primary-color); }
+    .app-card p { font-size: 14px; font-weight: 600; color: var(--text-color); }
+    .app-card span { font-size: 11px; color: var(--text-secondary-color); }
+  </style>
+</head>
+<body>
+  <div class="navbar-container"></div>
+  <div id="blobs">
+    <div class="gradiant"></div>
+    <div class="gradiant2"></div>
+    <div class="gradiant3"></div>
+  </div>
+  <div id="particles-js"></div>
+  <main>
+    <i class="fa-solid fa-th-large" style="font-size: 38px; color: var(--primary-color)"></i>
+    <h1>Apps</h1>
+    <div class="apps-grid">
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://docs.google.com/document/u/0/')">
+        <i class="fa-solid fa-file-lines"></i><p>Google Docs</p><span>Document editor</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://sheets.google.com/create')">
+        <i class="fa-solid fa-table"></i><p>Google Sheets</p><span>Spreadsheet editor</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://slides.google.com/create')">
+        <i class="fa-solid fa-presentation"></i><p>Google Slides</p><span>Presentation editor</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://www.desmos.com/calculator')">
+        <i class="fa-solid fa-calculator"></i><p>Desmos</p><span>Graphing calculator</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://www.geogebra.org/classic')">
+        <i class="fa-solid fa-shapes"></i><p>GeoGebra</p><span>Math tool</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://scratch.mit.edu/')">
+        <i class="fa-solid fa-code"></i><p>Scratch</p><span>Block coding</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://replit.com/')">
+        <i class="fa-solid fa-terminal"></i><p>Replit</p><span>Online IDE</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://www.overleaf.com/')">
+        <i class="fa-solid fa-pen-nib"></i><p>Overleaf</p><span>LaTeX editor</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://web.whiteboard.microsoft.com/')">
+        <i class="fa-solid fa-chalkboard"></i><p>Whiteboard</p><span>Microsoft Whiteboard</span>
+      </div>
+      <div class="app-card" onclick="window.location.href='/go';sessionStorage.setItem('lpurl','https://notion.so/')">
+        <i class="fa-solid fa-note-sticky"></i><p>Notion</p><span>Notes & wiki</span>
+      </div>
+    </div>
+  </main>
+  <div class="footer">
+    <a href="https://github.com/thedogecraft/lunaar.org" class="link">GitHub</a>
+    <a href="https://discord.gg/En5YJYWj3Z" class="link">Discord</a>
+  </div>
+  <button id="panicBtn">Panic</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+</body>
+</html>

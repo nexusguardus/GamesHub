@@ -1,0 +1,28 @@
+name: Supabase keep-alive
+
+# Supabase pauses free projects after ~7 days without API activity, which
+# breaks the Chess online rooms. This pings the project every 3 days so it
+# stays active. No secrets required: the script defaults to the project
+# baked into index.html, but you can override via repo secrets
+# (Settings > Secrets and variables > Actions):
+#   SUPABASE_URL, SUPABASE_ANON_KEY
+
+on:
+  schedule:
+    - cron: "0 9 */3 * *" # every 3 days at 09:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Ping Supabase
+        run: node scripts/supabase-keepalive.mjs
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
