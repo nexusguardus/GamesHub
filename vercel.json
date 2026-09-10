@@ -1,18 +1,27 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "./index.js",
-      "use": "@vercel/node"
+  "installCommand": "npm install",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": ["index.html", "public/**", "assets/**"]
     }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api" }
   ],
-  "routes": [
+  "headers": [
     {
-      "handle": "filesystem"
+      "source": "/sw.js",
+      "headers": [{ "key": "Service-Worker-Allowed", "value": "/" }]
     },
     {
-      "src": "/.*",
-      "dest": "index.js"
+      "source": "/uv/sw.js",
+      "headers": [{ "key": "Service-Worker-Allowed", "value": "/" }]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
     }
-  ]
+  ],
+  "cleanUrls": true
 }

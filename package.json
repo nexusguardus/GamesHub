@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "packageManager": "pnpm@10.12.1",
   "dependencies": {
     "@mercuryworkshop/bare-as-module3": "^2.2.2",
