@@ -101,61 +101,34 @@ function encodeURL(url) {
   }
 }
 
+/**
+ * Search engine templates keyed by the short names used in localStorage.
+ * The Settings dropdown stores a full URL template instead (it always
+ * contains "%s"), and both forms are accepted below.
+ *
+ * Default is Bing: DuckDuckGo answers the proxy's datacenter IP with
+ * "DDG.deep.anomalyDetectionBlock(...)", which renders as DuckDuckGo's
+ * "Unexpected error" page, and Google/Brave/Startpage serve bot blocks too.
+ *
+ * Kept inside the function on purpose: /go loads this file and /sj/index.js
+ * into the same global scope, and top-level consts would collide.
+ */
 function getSearchEngine() {
-  const searchEngine = localStorage.getItem("se") || "ddg";
-  let baseUrl;
-  switch (searchEngine) {
-    case "google":
-      baseUrl = `https://www.google.com/search?q=%s`;
-      break;
-    case "bing":
-      baseUrl = `https://www.bing.com/search?q=%s`;
-      break;
-    case "ddg":
-      baseUrl = `https://duckduckgo.com/?q=%s`;
-      break;
-    case "yahoo":
-      baseUrl = `https://search.yahoo.com/search?p=%s`;
-      break;
-    case "brave":
-      baseUrl = `https://search.brave.com/search?q=%s`;
-      break;
-    case "startpage":
-      baseUrl = `https://www.startpage.com/sp/search?query=%s`;
-      break;
-    default:
-      baseUrl = `https://duckduckgo.com/?q=%s`;
-  }
-  return baseUrl;
+  const templates = {
+    bing: "https://www.bing.com/search?q=%s",
+    ddg: "https://duckduckgo.com/?q=%s",
+    google: "https://www.google.com/search?q=%s",
+    yahoo: "https://search.yahoo.com/search?p=%s",
+    brave: "https://search.brave.com/search?q=%s",
+    startpage: "https://www.startpage.com/sp/search?query=%s",
+  };
+  const searchEngine = localStorage.getItem("se");
+  // Settings stores a ready-made template; short keys come from older builds.
+  if (searchEngine && searchEngine.includes("%s")) return searchEngine;
+  return templates[searchEngine] || templates.bing;
 }
 function encodeTEXT(text) {
-  const searchEngine = localStorage.getItem("se") || "ddg";
-  let baseUrl;
-
-  switch (searchEngine) {
-    case "google":
-      baseUrl = `https://www.google.com/search?q=${encodeURIComponent(text)}`;
-      break;
-    case "bing":
-      baseUrl = `https://www.bing.com/search?q=${encodeURIComponent(text)}`;
-      break;
-    case "ddg":
-      baseUrl = `https://duckduckgo.com/?q=${encodeURIComponent(text)}`;
-      break;
-    case "yahoo":
-      baseUrl = `https://search.yahoo.com/search?p=${encodeURIComponent(text)}`;
-      break;
-    case "brave":
-      baseUrl = `https://search.brave.com/search?q=${encodeURIComponent(text)}`;
-      break;
-    case "startpage":
-      baseUrl = `https://www.startpage.com/sp/search?query=${encodeURIComponent(
-        text
-      )}`;
-      break;
-    default:
-      baseUrl = `https://duckduckgo.com/?q=${encodeURIComponent(text)}`;
-  }
+  const baseUrl = getSearchEngine().replace("%s", encodeURIComponent(text));
 
   try {
     return __uv$config.prefix + __uv$config.encodeUrl(baseUrl);
