@@ -28,19 +28,61 @@ const wispUrl =
   location.host +
   "/wisp/";
 const bareUrl = location.protocol + "//" + location.host + "/bare/";
+
+function getDefaultTransport() {
+  // Wisp (WebSocket) is unavailable on Vercel serverless — bare HTTP works.
+  const host = location.hostname;
+  const isServerless =
+    host.endsWith(".vercel.app") ||
+    host.endsWith(".netlify.app") ||
+    host === "littlexia.vercel.app";
+  if (isServerless) return "bare";
+  return "libcurl";
+}
+
 var transport = localStorage.getItem("transport");
 if (!transport) {
-  transport = "libcurl";
+  transport = getDefaultTransport();
   localStorage.setItem("transport", transport);
+} else if (transport !== "bare" && location.hostname.endsWith(".vercel.app")) {
+  // Auto-migrate stuck users: libcurl/epoxy require Wisp which fails on Vercel.
+  const prev = transport;
+  transport = "bare";
+  localStorage.setItem("transport", transport);
+  try {
+    localStorage.setItem("transport_migrated_from", prev);
+  } catch {}
+  console.warn(`[UV] Transport "${prev}" needs Wisp (unavailable on Vercel). Auto-migrated to "bare".`);
 }
 
 async function setTransport(transportsel) {
-  if (transportsel == "epoxy") {
-    await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
-  } else if (transportsel == "libcurl") {
-    await connection.setTransport("/libcurl/index.mjs", [{ wisp: wispUrl }]);
-  } else {
-    await connection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
+  // Guard: on Vercel, force bare regardless of caller request
+  if (location.hostname.endsWith(".vercel.app") && transportsel !== "bare") {
+    console.warn(`[UV] Wisp transports unavailable on Vercel — forcing "bare" instead of "${transportsel}".`);
+    transportsel = "bare";
+    localStorage.setItem("transport", "bare");
+  }
+  try {
+    if (transportsel == "epoxy") {
+      await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
+    } else if (transportsel == "libcurl") {
+      await connection.setTransport("/libcurl/index.mjs", [{ wisp: wispUrl }]);
+    } else {
+      await connection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
+    }
+    console.log(`[UV] Transport set to "${transportsel}"`);
+  } catch (e) {
+    console.error(`[UV] Failed to set transport "${transportsel}":`, e);
+    if (transportsel !== "bare") {
+      console.warn("[UV] Falling back to bare transport");
+      try {
+        await connection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
+        localStorage.setItem("transport", "bare");
+        console.log('[UV] Fallback to "bare" succeeded');
+      } catch (e2) {
+        console.error("[UV] Bare fallback also failed:", e2);
+      }
+    }
   }
 }
 setTransport(transport);

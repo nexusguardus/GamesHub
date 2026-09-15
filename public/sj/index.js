@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const sjconnection = new BareMux.BareMuxConnection("/baremux/worker.js");
   registerSJSW();
 
+  // On Vercel, epoxy's Wisp transport fails. Track so sjEncodeAndGo can use bare.
+  const isVercelHost = location.hostname.endsWith(".vercel.app");
+
   if (!sjform) return;
 
   sjform.addEventListener("submit", async (event) => {
@@ -67,8 +70,28 @@ document.addEventListener("DOMContentLoaded", () => {
       "://" +
       location.host +
       "/wisp/";
-    if ((await sjconnection.getTransport()) !== "/epoxy/index.mjs") {
-      await sjconnection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
+    try {
+      if ((await sjconnection.getTransport()) !== "/epoxy/index.mjs" && !isVercelHost) {
+        await sjconnection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
+      } else if (isVercelHost) {
+        // On Vercel, ensure bare transport so Scramjet fetches don't hang on Wisp
+        const bareUrl = location.protocol + "//" + location.host + "/bare/";
+        try {
+          await sjconnection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
+        } catch (e) {
+          console.warn("[SJ] Vercel bare fallback failed:", e);
+        }
+      }
+    } catch (e) {
+      console.warn("[SJ] Failed to set transport:", e);
+      if (isVercelHost) {
+        try {
+          const bareUrl = location.protocol + "//" + location.host + "/bare/";
+          await sjconnection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
+        } catch (e2) {
+          console.error("[SJ] Bare fallback also failed:", e2);
+        }
+      }
     }
     const sjEncode = scramjet.encodeUrl.bind(scramjet);
     frame.src = sjEncode(url);

@@ -60,8 +60,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (proxyTransport) {
+    const isVercelHost = location.hostname.endsWith(".vercel.app");
+    // On Vercel, libcurl/epoxy need Wisp (WebSocket) which is unavailable on serverless.
+    if (isVercelHost) {
+      const migrated = localStorage.getItem("transport_migrated_from");
+      if (migrated) {
+        const warn = document.createElement("div");
+        warn.style.cssText = "background:rgba(233,69,96,0.12);border:1px solid rgba(233,69,96,0.25);color:#ff8a9a;padding:8px 12px;border-radius:8px;font-size:12px;margin-top:6px;";
+        warn.textContent = `Heads up: "${migrated}" needs Wisp (unavailable on Vercel). Auto-switched to "bare" for compatibility. Select "bare" to keep UV working on this host.`;
+        proxyTransport.parentElement.appendChild(warn);
+      }
+      // Visually disable Wisp transports but keep them selectable so user sees why bare is forced.
+      Array.from(proxyTransport.options).forEach((opt) => {
+        if (opt.value === "epoxy" || opt.value === "libcurl") {
+          opt.textContent += " (unavailable on Vercel — use Bare)";
+          opt.style.color = "#888";
+        }
+      });
+    }
     if (proxyTransportValue) proxyTransport.value = proxyTransportValue;
+    // If still stuck on Wisp transport on Vercel, coerce to bare immediately.
+    if (isVercelHost && (proxyTransport.value === "epoxy" || proxyTransport.value === "libcurl")) {
+      proxyTransport.value = "bare";
+      localStorage.setItem("transport", "bare");
+    }
     proxyTransport.addEventListener("change", (e) => {
+      if (isVercelHost && (e.target.value === "epoxy" || e.target.value === "libcurl")) {
+        if (typeof Toastify !== "undefined") {
+          Toastify({
+            text: `"${e.target.value}" needs Wisp WebSockets which do not work on Vercel. Stay on "bare" or UV will show a 500 error.`,
+            duration: 5000,
+            gravity: "bottom",
+            position: "right",
+            style: { background: "#e94560", borderRadius: "8px" },
+          }).showToast();
+        } else {
+          alert(`"${e.target.value}" needs Wisp WebSockets which are unavailable on Vercel. Use "bare" for UV to work on this host.`);
+        }
+        // Still allow the change (proxy.js will force bare), but warn user.
+      }
       localStorage.setItem("transport", e.target.value);
       if (typeof window.setTransport === "function") window.setTransport(e.target.value);
     });

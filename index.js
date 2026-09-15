@@ -37,6 +37,15 @@ const publicPath = "public";
 
 app.set("views", join(__dirname, publicPath, "html"));
 app.use(compression());
+// Service-Worker-Allowed must be set BEFORE static serving, otherwise
+// express.static ends the response without this header and the SW
+// scope registration fails on some browsers / Vercel edge caches.
+app.use((req, res, next) => {
+  if (req.path === "/sw.js" || req.path === "/uv/sw.js") {
+    res.set("Service-Worker-Allowed", "/");
+  }
+  next();
+});
 app.use(express.static(publicPath));
 app.use("/uv/", express.static(uvPath));
 app.use("/scram/", express.static(scramjetPath));
@@ -46,10 +55,6 @@ app.use("/libcurl/", express.static(libcurlPath));
 app.use("/bareasmodule/", express.static(bareModulePath));
 // Health check — Vercel uptime / deploy verification
 app.get("/healthz", (req, res) => res.json({ ok: true }));
-app.use(["/sw.js", "/uv/sw.js"], (req, res, next) => {
-  res.set("Service-Worker-Allowed", "/");
-  next();
-});
 // Scramjet's epoxy WASM is resolved via webpack publicPath, which inside the
 // service worker (/sw.js) evaluates to the origin root. Serve it from there
 // or every Scramjet fetch fails and the iframe shows a network error page.
